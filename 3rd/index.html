@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profiles</title>
+  <style>
+    /* Basic styling for demonstration */
+    .user-profile {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+    #search {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://www.unpkg.com/react@18.2.0/umd/react.development.js"></script>
+  <script src="https://www.unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script type="text/babel">
+    // UserProfile Component
+    function UserProfile({ user }) {
+      return (
+        <div className="user-profile">
+          <h2>{user.name}</h2>
+          <p>Email: {user.email}</p>
+          <p>Username: {user.username}</p>
+        </div>
+      );
+    }
+
+    // App Component
+    function App() {
+      const [searchQuery, setSearchQuery] = React.useState('');
+      
+      // Sample user data
+      const users = [
+        { id: 1, name: 'John Doe', email: 'john@example.com', username: 'johndoe' },
+        { id: 2, name: 'Jane Smith', email: 'jane@example.com', username: 'janesmith' },
+        { id: 3, name: 'Alice Johnson', email: 'alice@example.com', username: 'alicejohnson' },
+        // Add more user data as needed
+      ];
+
+      // Filter users based on search query
+      const filteredUsers = users.filter(user =>
+        user.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+
+      // Handle search input change
+      const handleSearchChange = (e) => {
+        setSearchQuery(e.target.value);
+      };
+
+      return (
+        <div>
+          <h1>User Profiles</h1>
+          <input
+            id="search"
+            type="text"
+            placeholder="Search by name..."
+            value={searchQuery}
+            onChange={handleSearchChange}
+          />
+          {filteredUsers.map(user => (
+            <UserProfile key={user.id} user={user} />
+          ))}
+        </div>
+      );
+    }
+
+    // Rendering App component
+    ReactDOM.render(
+      <App />,
+      document.getElementById('root')
+    );
+  </script>
+</body>
+</html>
